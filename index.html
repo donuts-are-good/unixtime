@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Unix Nano Timestamp</title>
+  </head>
+  <body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold mb-4">Unix Nano Timestamp</h1>
+      <div 
+        id="timestamp" 
+        class="text-4xl font-mono bg-white p-6 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition-colors"
+        onclick="copyToClipboard()">
+      </div>
+      <p id="copyMessage" class="mt-2 text-green-600 opacity-0 transition-opacity">Copied to clipboard!</p>
+    </div>
+
+    <script>
+      function updateTimestamp() {
+        const unixNanoTime = BigInt(Date.now()) * BigInt(1000000);
+        document.getElementById('timestamp').textContent = unixNanoTime.toString();
+      }
+
+      function copyToClipboard() {
+        const timestamp = document.getElementById('timestamp').textContent;
+        navigator.clipboard.writeText(timestamp)
+          .then(() => {
+            const copyMessage = document.getElementById('copyMessage');
+            copyMessage.style.opacity = '1';
+            setTimeout(() => {
+              copyMessage.style.opacity = '0';
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Failed to copy: ', err);
+          });
+      }
+
+      updateTimestamp();
+    </script>
+  </body>
+</html> 
